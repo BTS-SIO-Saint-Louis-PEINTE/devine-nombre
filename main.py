@@ -1,67 +1,51 @@
 import random
 
-def jeu_du_pendu():
+def deviner_nombre():
     """
-    Fonction principale pour jouer au jeu du Pendu.
-    Le joueur doit deviner les lettres d'un mot avant que toutes les tentatives soient épuisées.
+    Fonction principale pour jouer au jeu Deviner le Nombre.
+    L'ordinateur génère un nombre aléatoire, et le joueur doit le deviner.
     """
-    print("Bienvenue au jeu du Pendu!")
-    print("Devinez le mot, une lettre à la fois.")
+    print("Bienvenue au jeu Deviner le Nombre!")
+    print("L'ordinateur a choisi un nombre entre 1 et 100.")
+    print("Essayez de le deviner! Tapez 'quit' pour quitter le jeu.")
     
-    # Liste de mots possibles
-    mots = ["python", "programmation", "ordinateur", "jeu", "pendu", "algorithmique"]
-    # Choisir un mot aléatoire dans la liste
-    mot_secret = random.choice(mots)
-    # Créer une représentation du mot caché avec des underscores
-    mot_cache = ["_"] * len(mot_secret)
-    # Définir le nombre maximal de tentatives
-    tentatives_restantes = 6
-    lettres_devinees = set()
+    # Générer un nombre aléatoire entre 1 et 100
+    nombre_secret = random.randint(1, 100)
+    tentatives = 0  # Compteur de tentatives
     
-    while tentatives_restantes > 0:
-        print("\nMot à deviner: " + " ".join(mot_cache))
-        print(f"Tentatives restantes: {tentatives_restantes}")
-        print(f"Lettres devinées: {', '.join(sorted(lettres_devinees))}")
+    while True:
+        # Demander au joueur d'entrer un nombre
+        entree = input("\nEntrez votre nombre: ")
         
-        # Demander une lettre au joueur
-        lettre = input("Proposez une lettre: ").lower()
-        
-        # Vérifier la validité de l'entrée
-        if len(lettre) != 1 or not lettre.isalpha():
-            print("Veuillez entrer une seule lettre valide.")
-            continue
-        if lettre in lettres_devinees:
-            print("Vous avez déjà proposé cette lettre.")
-            continue
-        
-        # Ajouter la lettre aux lettres devinées
-        lettres_devinees.add(lettre)
-        
-        # Vérifier si la lettre est dans le mot secret
-        if lettre in mot_secret:
-            print(f"Bonne réponse! La lettre '{lettre}' est dans le mot.")
-            # Révéler la lettre dans le mot caché
-            for i, l in enumerate(mot_secret):
-                if l == lettre:
-                    mot_cache[i] = lettre
-        else:
-            print(f"Mauvaise réponse! La lettre '{lettre}' n'est pas dans le mot.")
-            tentatives_restantes -= 1
-        
-        # Vérifier si le joueur a deviné tout le mot
-        if "_" not in mot_cache:
-            print("\nFélicitations! Vous avez trouvé le mot:", mot_secret)
+        # Vérifier si le joueur veut quitter le jeu
+        if entree.lower() == "quit":
+            print("Merci d'avoir joué! À bientôt!")
             break
-    else:
-        # Le joueur a utilisé toutes ses tentatives
-        print("\nDommage! Vous avez perdu. Le mot était:", mot_secret)
+        
+        # Vérifier que l'entrée est un nombre valide
+        if not entree.isdigit():
+            print("Veuillez entrer un nombre valide.")
+            continue
+        
+        # Convertir l'entrée en entier
+        nombre_joueur = int(entree)
+        tentatives += 1
+        
+        # Comparer le nombre du joueur avec le nombre secret
+        if nombre_joueur < nombre_secret:
+            print("Trop petit! Essayez encore.")
+        elif nombre_joueur > nombre_secret:
+            print("Trop grand! Essayez encore.")
+        else:
+            print(f"Félicitations! Vous avez trouvé le nombre {nombre_secret} en {tentatives} tentatives!")
+            break
 
 def main():
     """
     Point d'entrée du programme.
-    Lance le jeu du Pendu.
+    Lance le jeu Deviner le Nombre.
     """
-    jeu_du_pendu()
+    deviner_nombre()
 
 # Appeler la fonction main si le script est exécuté directement
 if __name__ == "__main__":
